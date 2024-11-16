@@ -22,7 +22,7 @@ def main_loop():
                 show_name = get_show_name("https://www.twitch.tv/dcufm")
                 create_obs_image(show_name)
 
-                wait_time = random.randint(45, 75)
+                wait_time = random.randint(30, 45)
                 time.sleep(wait_time)
 
             except Exception as e:
