@@ -5,6 +5,9 @@ import time
 from datetime import datetime, timedelta
 from lib.obs_image import create_obs_image
 from lib.twitch import get_show_name
+from lib.twitch_v2 import get_show_name_v2
+from lib.twitch_v3 import get_twitch_channel_info
+from config import *
 
 
 def main_loop():
@@ -19,7 +22,8 @@ def main_loop():
 
         if is_weekday and start_time <= current_time <= end_time:
             try:
-                show_name = get_show_name("https://www.twitch.tv/dcufm")
+                show_name = get_twitch_channel_info(broadcaster_id, client_id, client_secret)
+                show_name = show_name.get('data')[0].get('title')
                 create_obs_image(show_name)
 
                 wait_time = random.randint(30, 45)
@@ -27,6 +31,7 @@ def main_loop():
 
             except Exception as e:
                 print(f"Error occurred: {e}. Retrying...")
+                create_obs_image("You're listening to DCUfm!")
                 time.sleep(5)
 
         else:
